@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaxiMap", "MaxiMap\MaxiMap.csproj", "{3E91BBC3-16B4-4623-8306-E55FF5DEAE06}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3E91BBC3-16B4-4623-8306-E55FF5DEAE06}.Debug|x86.ActiveCfg = Debug|x86
+		{3E91BBC3-16B4-4623-8306-E55FF5DEAE06}.Debug|x86.Build.0 = Debug|x86
+		{3E91BBC3-16B4-4623-8306-E55FF5DEAE06}.Release|x86.ActiveCfg = Release|x86
+		{3E91BBC3-16B4-4623-8306-E55FF5DEAE06}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
