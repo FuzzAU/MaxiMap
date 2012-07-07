@@ -51,11 +51,11 @@ namespace MaxiMap
         /// Width calculated between TopRight and TopLeft
         /// Height calculated between BottomLeft and TopLeft
         /// </remarks>
-        public Point Size
+        public Size MapSize
         {
             get
             {
-                return new Point(TopRight.X - TopLeft.X, TopLeft.Y - BottomLeft.Y);
+                return new Size(TopRight.X - TopLeft.X, BottomLeft.Y - TopLeft.Y);
             }
         }
 

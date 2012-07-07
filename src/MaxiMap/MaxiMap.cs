@@ -16,6 +16,23 @@ namespace MaxiMap
     public partial class MaxiMap : Form
     {
         /// <summary>
+        /// List of resolutions supported for Starcraft 2 Minimaps
+        /// </summary>
+        private enum SupportedResolution { h1920v1080 };
+
+        /// <summary>
+        /// Mapping between resolution and map location
+        /// </summary>
+        private Dictionary< SupportedResolution, MapLocation > MapCoords = new Dictionary<SupportedResolution,MapLocation>()
+        { 
+          { SupportedResolution.h1920v1080, new MapLocation( 28, 810,
+                                                             289, 810,
+                                                             28, 1068,
+                                                             289, 1068 ) 
+          }
+        };
+
+        /// <summary>
         /// Direct 3D interface device
         /// </summary>
         private Microsoft.DirectX.Direct3D.Device D3DDevice;
@@ -25,6 +42,19 @@ namespace MaxiMap
         /// </summary>
         private Bitmap MapBuffer;
 
+        /// <summary>
+        /// Direct X surface from capture
+        /// </summary>
+        private Surface DXSurface;
+
+        /// <summary>
+        /// Capture and refresh timer
+        /// </summary>
+        private Timer UpdateTimer = new Timer();
+
+        private Point MapStartLocation = new Point(0, 0);
+        private Size MapSize = new Size(0, 0);
+       
         public MaxiMap()
         {
             InitializeComponent();
@@ -32,26 +62,43 @@ namespace MaxiMap
 
         private void MaxiMap_Load(object sender, EventArgs e)
         {
+            // By default, lets just use the default resolution for 1920x1080
+            var coords = MapCoords[SupportedResolution.h1920v1080];
+            MapStartLocation = coords.TopLeft;
+            MapSize = coords.MapSize;
+
+            // Initialise the direct X device
             PresentParameters present_params = new PresentParameters();
             present_params.Windowed = true;
             present_params.SwapEffect = SwapEffect.Discard;
             D3DDevice = new Device(0, DeviceType.Hardware, this,
                     CreateFlags.SoftwareVertexProcessing, present_params);
 
+            // Make room in the bitmap to store the Minimap
             MapBuffer = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+            UpdateTimer.Interval = 30;
+            UpdateTimer.Tick += new EventHandler(UpdateTimer_Tick);
+            UpdateTimer.Start();
+        }
+
+        void UpdateTimer_Tick(object sender, EventArgs e)
+        {
+            DXSurface = D3DDevice.CreateOffscreenPlainSurface(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, Format.A8R8G8B8, Pool.Scratch);
+            D3DDevice.GetFrontBufferData(0, DXSurface);
+            
+            SurfaceToBitmap(DXSurface, MapBuffer);
+
+            // TODO Determine is this release and dispose section is required, or can memory be reused
+            DXSurface.ReleaseGraphics();
+            DXSurface.Dispose();
+
+            mapDisplay.Image = MapBuffer;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Surface s = D3DDevice.CreateOffscreenPlainSurface(Screen.PrimaryScreen.Bounds.Width,
-                Screen.PrimaryScreen.Bounds.Height, Format.A8R8G8B8, Pool.Scratch);
-            D3DDevice.GetFrontBufferData(0, s);
-            
-            //var gs = SurfaceLoader.SaveToStream(ImageFileFormat.Bmp, s);
-            SurfaceToBitmap(s, MapBuffer);
 
-            mapDisplay.Image = MapBuffer;
-            
         }
 
         // Copies from a surface to a bitmap assuming FormatA8R8G8B8
@@ -87,6 +134,9 @@ namespace MaxiMap
                 }
             }
             b.UnlockBits(bmd);
+            s.UnlockRectangle();
+
+
         }
     }
 }
