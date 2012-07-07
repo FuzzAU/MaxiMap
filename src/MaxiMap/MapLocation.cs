@@ -59,6 +59,13 @@ namespace MaxiMap
             }
         }
 
+        /// <summary>
+        /// Create a Map Location with Points
+        /// </summary>
+        /// <param name="topLeft">Co-ordinate of top left map corner</param>
+        /// <param name="topRight">Co-ordinate of top right map corner</param>
+        /// <param name="bottomLeft">Co-ordinate of bottom left map corner</param>
+        /// <param name="bottomRight">Co-ordinate of bottom right map corner</param>
         public MapLocation(Point topLeft, Point topRight, Point bottomLeft, Point bottomRight)
         {
             TopLeft = topLeft;
@@ -67,6 +74,17 @@ namespace MaxiMap
             BottomRight = bottomRight;
         }
 
+        /// <summary>
+        /// Create a Map Location
+        /// </summary>
+        /// <param name="topLeftX">Top left X position</param>
+        /// <param name="topLeftY">Top left Y position</param>
+        /// <param name="topRightX">Top right X position</param>
+        /// <param name="topRightY">Top right Y position</param>
+        /// <param name="bottomLeftX">Bottom left X position</param>
+        /// <param name="bottomLeftY">Bottom left Y position</param>
+        /// <param name="bottomRightX">Bottom right X position</param>
+        /// <param name="bottomRightY">Bottom right Y position</param>
         public MapLocation(int topLeftX, int topLeftY,
                            int topRightX, int topRightY,
                            int bottomLeftX, int bottomLeftY,
