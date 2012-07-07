@@ -28,7 +28,6 @@ namespace MaxiMapD3D {
 			ScreenBounds = gcnew Size();
 
 			// Pin the pointer down so that it doesn't get moved when the GC moves stuff about
-			//pin_ptr<LPDIRECT3DDEVICE9> device = &this->DXDevice;
 			LPDIRECT3DDEVICE9 device;
 			// TODO		Error handling here for failed creation. Use failed...
 			if( FAILED(D3D9->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, window, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &D3Dpp, &device )))
@@ -74,7 +73,7 @@ namespace MaxiMapD3D {
 		{
 			// Lock the bitmap bits for raw copying to
 			System::Drawing::Rectangle OutLockRect(0, 0, MapSize->Width, MapSize->Height);
-			BitmapData^ SrcBitmapData = OutputBitmap->LockBits(OutLockRect, ImageLockMode::ReadWrite, PixelFormat::Format32bppArgb);
+			BitmapData^ DestBitmapData = OutputBitmap->LockBits(OutLockRect, ImageLockMode::ReadWrite, PixelFormat::Format32bppArgb);
 			
 			// Lock the surface for copying from
 			// TODO Find a better way to initialise the rectangle
@@ -89,28 +88,32 @@ namespace MaxiMapD3D {
 			// Get the source location for the copy
 			char* SourceAddr = (char*)SrcLockedRect.pBits;
 			// Get the destination location for the copy
-			char* DestAddr = (char*)(SrcBitmapData->Scan0.ToPointer());
+			char* DestAddr = (char*)(DestBitmapData->Scan0.ToPointer());
 			// Size (in bytes) of a source pixel (A, R, G, B)
 			char SrcBytesPerPixel = 4;
 			// Size (in bytes) of a destination pixel (A, R, G, B)
 			char DestBytesPerPixel = 4;
 			// Source stride
 			int SourceStride = SrcLockedRect.Pitch;
+			int DestStride = DestBitmapData->Stride;
 
-			for(int i = 0; i < SrcBitmapData->Height; ++i)
+			for(int i = 0; i < DestBitmapData->Height; ++i)
             {
-                for (int j = 0; j < SrcBitmapData->Width; ++j)
+				char* srcRow = SourceAddr + (i * SourceStride);
+				char* destBase = DestAddr + (i * DestBitmapData->Stride);
+				
+                for (int j = 0; j < DestBitmapData->Width; ++j)
                 {
-                    char* srcBase = SourceAddr + (i * SourceStride) + (j * SrcBytesPerPixel);
-                    char* destBase = DestAddr + (i * SrcBitmapData->Stride) + (j * DestBytesPerPixel);
-                    destBase[0] = srcBase[0];
-                    destBase[1] = srcBase[1];
-                    destBase[2] = srcBase[2];
-                    destBase[3] = srcBase[3];
+                    char* srcPixel = srcRow + (j * SrcBytesPerPixel);
+                    char* destPixel = destBase + (j * DestBytesPerPixel);
+                    destPixel[0] = srcPixel[0];
+                    destPixel[1] = srcPixel[1];
+                    destPixel[2] = srcPixel[2];
+                    destPixel[3] = srcPixel[3];
                 }
             }
 
-			OutputBitmap->UnlockBits(SrcBitmapData);
+			OutputBitmap->UnlockBits(DestBitmapData);
 			InputSurface->UnlockRect();
 		}
 

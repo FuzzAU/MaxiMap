@@ -49,6 +49,11 @@ namespace MaxiMap
         /// Capture and refresh timer
         /// </summary>
         private System.Windows.Forms.Timer UpdateTimer = new System.Windows.Forms.Timer();
+
+        /// <summary>
+        /// Frames per second timer
+        /// </summary>
+        private System.Windows.Forms.Timer FPSTimer = new System.Windows.Forms.Timer();
         
         /// <summary>
         /// Start location of the SC2 Minimap at the current resolution
@@ -59,6 +64,14 @@ namespace MaxiMap
         /// Size of the current SC2 Minimap
         /// </summary>
         private Size MapSize = new Size(0, 0);
+
+
+        private int FrameCount = 0;
+        private int LastFrameCount = 0;
+        /// <summary>
+        /// Time [in seconds] between FPS updates
+        /// </summary>
+        private double FPSUpdateTime = 0.25;
 
         private MaxiMapD3D.MaxiMapD3D MapD3D;
         public MaxiMap()
@@ -80,9 +93,24 @@ namespace MaxiMap
             MapD3D.SetSystemScreenSounds(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
             
             // Time will go as fast as possible to get maximum frame rate
-            UpdateTimer.Interval = 30;
+            UpdateTimer.Interval = 1;
             UpdateTimer.Tick += new EventHandler(UpdateTimer_Tick);
             UpdateTimer.Start();
+
+            // Time will go as fast as possible to get maximum frame rate
+            FPSTimer.Interval = (int)(FPSUpdateTime * 1000);
+            FPSTimer.Tick += new EventHandler(FPSTimer_Tick);
+            FPSTimer.Start();
+
+        }
+
+        void FPSTimer_Tick(object sender, EventArgs e)
+        {
+            int fps = (int)((FrameCount - LastFrameCount) / FPSUpdateTime);
+
+            FPSLabel.Text = "FPS: " + fps.ToString();
+
+            LastFrameCount = FrameCount;
         }
 
         /// <summary>
@@ -92,9 +120,10 @@ namespace MaxiMap
         {
             // Copy current map surface to map bitmap
             MapD3D.GetMap(MapBuffer, MapStartLocation, MapSize);
-
             // Update the PictureBox
             mapDisplay.Image = MapBuffer;
+            // Update the frame counter for FPS calculation
+            FrameCount++;
         }
 
     }
