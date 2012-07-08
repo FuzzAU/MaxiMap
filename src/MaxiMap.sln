@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaxiMap", "MaxiMap\MaxiMap.csproj", "{3E91BBC3-16B4-4623-8306-E55FF5DEAE06}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaxiMapCS", "MaxiMap\MaxiMapCS.csproj", "{3E91BBC3-16B4-4623-8306-E55FF5DEAE06}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MaxiMapD3D", "MaxiMapD3D\MaxiMapD3D.vcxproj", "{7F8A6887-4233-481E-879A-A6C8B7DDBEFA}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MaxiMapCPP", "MaxiMapCPP\MaxiMapCPP.vcxproj", "{2C2A6D4B-BD18-4ECE-91C0-0BD176F5CD07}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,16 @@ Global
 		{7F8A6887-4233-481E-879A-A6C8B7DDBEFA}.Release|Win32.ActiveCfg = Release|Win32
 		{7F8A6887-4233-481E-879A-A6C8B7DDBEFA}.Release|Win32.Build.0 = Release|Win32
 		{7F8A6887-4233-481E-879A-A6C8B7DDBEFA}.Release|x86.ActiveCfg = Release|Win32
+		{2C2A6D4B-BD18-4ECE-91C0-0BD176F5CD07}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{2C2A6D4B-BD18-4ECE-91C0-0BD176F5CD07}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{2C2A6D4B-BD18-4ECE-91C0-0BD176F5CD07}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2C2A6D4B-BD18-4ECE-91C0-0BD176F5CD07}.Debug|Win32.Build.0 = Debug|Win32
+		{2C2A6D4B-BD18-4ECE-91C0-0BD176F5CD07}.Debug|x86.ActiveCfg = Debug|Win32
+		{2C2A6D4B-BD18-4ECE-91C0-0BD176F5CD07}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{2C2A6D4B-BD18-4ECE-91C0-0BD176F5CD07}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{2C2A6D4B-BD18-4ECE-91C0-0BD176F5CD07}.Release|Win32.ActiveCfg = Release|Win32
+		{2C2A6D4B-BD18-4ECE-91C0-0BD176F5CD07}.Release|Win32.Build.0 = Release|Win32
+		{2C2A6D4B-BD18-4ECE-91C0-0BD176F5CD07}.Release|x86.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

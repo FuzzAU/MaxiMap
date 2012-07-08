@@ -93,6 +93,5 @@ namespace MaxiMap
             : this(new Point(topLeftX, topLeftY), new Point(topRightX, topRightY), new Point(bottomLeftX, bottomLeftY), new Point(bottomRightX, bottomRightY))
         {   
         }
-
     }
 }

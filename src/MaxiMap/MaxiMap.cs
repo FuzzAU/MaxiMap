@@ -23,20 +23,12 @@ namespace MaxiMap
         /// <summary>
         /// Mapping between resolution and map location
         /// </summary>
-        //private Dictionary< SupportedResolution, MapLocation > MapCoords = new Dictionary<SupportedResolution,MapLocation>()
-        //{ 
-        //  { SupportedResolution.h1920v1080, new MapLocation( 28, 810,
-        //                                                     289, 810,
-        //                                                     28, 1068,
-        //                                                     289, 1068 ) 
-        //  }
-        //};
         private Dictionary<SupportedResolution, MapLocation> MapCoords = new Dictionary<SupportedResolution, MapLocation>()
         { 
           { SupportedResolution.h1920v1080, new MapLocation( 28, 810,
                                                              289, 810,
-                                                             28, 1000,
-                                                             289, 1000 ) 
+                                                             28, 1068,
+                                                             289, 1068 ) 
           }
         };
 
@@ -102,6 +94,23 @@ namespace MaxiMap
             FPSTimer.Tick += new EventHandler(FPSTimer_Tick);
             FPSTimer.Start();
 
+            mapDisplay.DoubleClick += new EventHandler(mapDisplay_DoubleClick);
+        }
+
+        void mapDisplay_DoubleClick(object sender, EventArgs e)
+        {
+            // Go full screen
+            if (this.FormBorderStyle == FormBorderStyle.Sizable)
+            {
+                this.FormBorderStyle = FormBorderStyle.None;
+                this.WindowState = FormWindowState.Maximized;
+            }
+            // Go back to normal size 
+            else
+            {
+                this.FormBorderStyle = FormBorderStyle.Sizable;
+                this.WindowState = FormWindowState.Normal;
+            }
         }
 
         void FPSTimer_Tick(object sender, EventArgs e)
