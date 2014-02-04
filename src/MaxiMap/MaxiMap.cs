@@ -129,8 +129,13 @@ namespace MaxiMap
         {
             // Copy current map surface to map bitmap
             MapD3D.GetMap(MapBuffer, MapStartLocation, MapSize);
+            //backup the old image reference
+            var oldImage = mapDisplay.Image;
             // Update the PictureBox
             mapDisplay.Image = MapBuffer;
+            //Image implements IDisposable and since this is actually a Bitmap, it holds on to unmanaged resources.
+            //call Dispose() to reduce GC burden and predicatbly release the resources to lower memory usage.
+            oldImage.Dispose();
             // Update the frame counter for FPS calculation
             FrameCount++;
         }
